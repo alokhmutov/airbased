@@ -2,6 +2,7 @@
 
 require_relative "airbased/version"
 require_relative "airbased/airtable"
+require_relative "airbased/table"
 
 # Airbased is a module for interfacing with the Airtable API.
 module Airbased
