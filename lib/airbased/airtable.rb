@@ -13,10 +13,10 @@ module Airbased
 
     def self.with_rate_limit
       # Keep only the timestamps within the last second
-      @requests.reject! { |timestamp| (now = Time.now) - timestamp > 1 }
+      @requests.reject! { |timestamp| Time.now - timestamp > 1 }
 
       if @requests.size >= 5
-        sleep_time = 1 - (now - @requests.first)
+        sleep_time = 1 - (Time.now - @requests.first)
         if sleep_time > 0
           sleep(sleep_time)
         end
