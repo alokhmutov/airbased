@@ -6,6 +6,29 @@ module Airbased
     base_uri 'https://api.airtable.com/v0/'
     headers 'User-Agent' => "Airbased Ruby Gem/#{Airbased::VERSION}"
 
+    class << self
+      attr_accessor :requests
+    end
+    @requests = []
+
+    def self.with_rate_limit
+      # Keep only the timestamps within the last second
+      @requests.reject! { |timestamp| (now = Time.now) - timestamp > 1 }
+
+      if @requests.size >= 5
+        sleep_time = 1 - (now - @requests.first)
+        if sleep_time > 0
+          sleep(sleep_time)
+        end
+      end
+
+      response = yield
+
+      @requests << Time.parse(response.headers["date"]) rescue Time.now
+
+      response
+    end
+
     def self.authorization(options)
       api_key = options.delete(:api_key) || Airbased.api_key
       options[:headers] ||= {Authorization: "Bearer #{api_key}"}
@@ -21,7 +44,10 @@ module Airbased
         options[:debug_output] = $stdout if Airbased.debug
 
         # delegates to the HTTParty method
-        super(path, options, &block)
+        with_rate_limit do
+          # delegates to the HTTParty method
+          super(path, options, &block)
+        end
       end
     end
   end
