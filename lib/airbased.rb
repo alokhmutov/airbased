@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative "airbased/version"
+require_relative "airbased/airtable"
 
 # Airbased is a module for interfacing with the Airtable API.
 module Airbased
