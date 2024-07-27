@@ -18,5 +18,12 @@ module Airbased
       @fields = fields
       @table = table
     end
+
+    # Deletes a record from an Airtable table.
+    #
+    # @return [String] the ID of the deleted record.
+    def delete
+      Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")["id"]
+    end
   end
 end
