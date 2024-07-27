@@ -8,6 +8,7 @@ gemspec
 gem "rake", "~> 13.0"
 
 group :development, :test do
-  gem 'rspec'
-  gem 'rubocop', require: false
+  gem "minitest"
+  gem "webmock"
+  gem "rubocop", require: false
 end

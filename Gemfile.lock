@@ -7,10 +7,15 @@ PATH
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.8.7)
+      public_suffix (>= 2.0.2, < 7.0)
     ast (2.4.2)
     bigdecimal (3.1.8)
+    crack (1.0.0)
+      bigdecimal
+      rexml
     csv (3.3.0)
-    diff-lcs (1.5.1)
+    hashdiff (1.1.0)
     httparty (0.22.0)
       csv
       mini_mime (>= 1.0.0)
@@ -18,31 +23,20 @@ GEM
     json (2.7.2)
     language_server-protocol (3.17.0.3)
     mini_mime (1.1.5)
+    minitest (5.24.1)
     multi_xml (0.7.1)
       bigdecimal (~> 3.1)
     parallel (1.25.1)
     parser (3.3.4.0)
       ast (~> 2.4.1)
       racc
+    public_suffix (6.0.1)
     racc (1.8.0)
     rainbow (3.1.1)
     rake (13.2.1)
     regexp_parser (2.9.2)
     rexml (3.3.2)
       strscan
-    rspec (3.13.0)
-      rspec-core (~> 3.13.0)
-      rspec-expectations (~> 3.13.0)
-      rspec-mocks (~> 3.13.0)
-    rspec-core (3.13.0)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.1)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.1)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-support (3.13.1)
     rubocop (1.65.0)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -59,6 +53,10 @@ GEM
     ruby-progressbar (1.13.0)
     strscan (3.1.0)
     unicode-display_width (2.5.0)
+    webmock (3.23.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
 
 PLATFORMS
   arm64-darwin-21
@@ -66,9 +64,10 @@ PLATFORMS
 
 DEPENDENCIES
   airbased!
+  minitest
   rake (~> 13.0)
-  rspec
   rubocop
+  webmock
 
 BUNDLED WITH
    2.5.3
