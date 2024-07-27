@@ -7,9 +7,9 @@ module Airbased
 
     # Initializes a new Table object.
     #
+    # @param base_id [String] The ID of the base containing the table.
     # @param id [String, nil] The ID of the table.
     # @param name [String, nil] The name of the table.
-    # @param base_id [String, nil] The ID of the base containing the table.
     # @param api_key [String, nil] The API key to access the table.
     # @param fields [Array<Hash>, nil] The list of fields in the table.
     # @param primary_field_id [String, nil] The ID of the primary field in the table.
@@ -20,9 +20,9 @@ module Airbased
     #
     # @return [Airbased::Table] A new Table object.
     def initialize(
+      base_id:,
       id: nil,
       name: nil,
-      base_id: nil,
       api_key: nil,
       fields: nil,
       primary_field_id: nil,
