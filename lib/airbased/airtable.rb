@@ -17,14 +17,19 @@ module Airbased
 
       if @requests.size >= 5
         sleep_time = 1 - (Time.now - @requests.first)
-        if sleep_time > 0
-          sleep(sleep_time)
-        end
+        sleep(sleep_time) if sleep_time.positive?
       end
 
       response = yield
 
-      @requests << Time.parse(response.headers["date"]) rescue Time.now
+      request_time =
+        begin
+          Time.parse(response.headers["date"])
+        rescue
+          Time.now
+        end
+
+      @requests << request_time
 
       response
     end
