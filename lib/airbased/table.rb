@@ -42,5 +42,15 @@ module Airbased
       # only define api_key if passed specifically for this table, will otherwise use module's api key
       @api_key = api_key if api_key
     end
+
+    # Fetches a specific record from an Airtable table.
+    #
+    # @param record_id [String] The ID of the record to retrieve.
+    # @return [Hash] The response from the Airtable API containing the record data.
+    def find(record_id)
+      # TODO: cellFormat and returnFieldsByFieldId
+      Airtable.get("/#{@base_id}/#{@id}/#{record_id}")
+    end
+    alias :get_record :find
   end
 end
