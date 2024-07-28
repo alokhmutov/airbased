@@ -9,6 +9,8 @@ gem "rake", "~> 13.0"
 
 group :development, :test do
   gem "minitest"
+  gem "minitest-hooks"
+  gem "minitest-reporters"
   gem "webmock"
   gem "rubocop", require: false
 end
