@@ -4,7 +4,8 @@ module Airbased
   class Airtable
     include HTTParty
     base_uri 'https://api.airtable.com/v0/'
-    headers 'User-Agent' => "Airbased Ruby Gem/#{Airbased::VERSION}"
+    headers 'User-Agent' => "Airbased Ruby Gem/#{Airbased::VERSION}",
+            'Content-Type' => 'application/json'
 
     class << self
       attr_accessor :requests
@@ -39,12 +40,17 @@ module Airbased
       options[:headers] ||= {Authorization: "Bearer #{api_key}"}
     end
 
+    # formating request body to json
+    def self.process_query(query)
+      JSON.dump(query.compact)
+    end
+
     # processing a custom api key option first, then making request
     [:get, :post, :patch, :put, :delete].each do |method|
-      define_singleton_method(method) do |path, options = {}, &block|
+      define_singleton_method(method) do |path, query = nil, options = {}, &block|
         # setting API key in request
         authorization(options)
-
+        options[:body] = process_query(query) if query
         # would output request info if enabled
         options[:debug_output] = $stdout if Airbased.debug
 
