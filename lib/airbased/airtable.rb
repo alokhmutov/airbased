@@ -45,7 +45,7 @@ module Airbased
       JSON.dump(query.compact)
     end
 
-    # processing a custom api key option first, then making request
+    # processing a custom api key and debug options, formatting query, then making request
     [:get, :post, :patch, :put, :delete].each do |method|
       define_singleton_method(method) do |path, query = nil, options = {}, &block|
         # setting API key in request
@@ -54,9 +54,9 @@ module Airbased
         # would output request info if enabled
         options[:debug_output] = $stdout if Airbased.debug
 
-        # delegates to the HTTParty method
+        # processes rate limits
         with_rate_limit do
-          # delegates to the HTTParty method
+          # and then delegates to the HTTParty method
           super(path, options, &block)
         end
       end
