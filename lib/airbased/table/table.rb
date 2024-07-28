@@ -79,5 +79,34 @@ module Airbased
       Airtable.get("/#{@base_id}/#{table_key}/#{record_id}")
     end
     alias :get_record :find
+
+    # Creates new records in the Airtable base.
+    #
+    # This method sends a POST request to the Airtable API to create new records.
+    # The records parameter can either be a single hash or an array of hashes, where each hash represents a record.
+    #
+    # @param record_or_records [Hash, Array<Hash>] The records to be created. Must be a hash or an array of hashes.
+    # @param typecast [Boolean] (false) Whether to automatically typecast values. Defaults to false.
+    def create(record_or_records, typecast: false)
+      records = record_or_records.is_a?(Hash) ? [record_or_records] : record_or_records
+      records.map! { |record| { fields: record } }
+
+      returned_records = records.each_slice(10).map do |slice|
+        create_slice(slice)
+      end.flatten
+      returned_records.size == 1 ? returned_records.first : returned_records
+    end
+
+    # Creates new records in the Airtable base in slices of up to 10 records
+    # from an array of hashes, where each hash represents a record.
+    #
+    # @param slice [Array<Hash>] The slice of records to be created. Each record is represented as a hash.
+    # @return [Array<Record>] An array of Record objects created from the response of the Airtable API.
+    def create_slice(slice)
+      records = Airtable.post("/#{@base_id}/#{table_key}", { records: slice })["records"]
+      records.map do |record|
+        Record.new(id: record["id"], fields: record["fields"], created_time: record["createdTime"], table: self)
+      end
+    end
   end
 end
