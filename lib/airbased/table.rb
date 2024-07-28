@@ -43,13 +43,17 @@ module Airbased
       @api_key = api_key if api_key
     end
 
+    def table_key
+      @id || CGI.escape_uri_component(@name)
+    end
+
     # Fetches a specific record from an Airtable table.
     #
     # @param record_id [String] The ID of the record to retrieve.
     # @return [Hash] The response from the Airtable API containing the record data.
     def find(record_id)
       # TODO: cellFormat and returnFieldsByFieldId
-      Airtable.get("/#{@base_id}/#{@id}/#{record_id}")
+      Airtable.get("/#{@base_id}/#{table_key}/#{record_id}")
     end
     alias :get_record :find
   end
