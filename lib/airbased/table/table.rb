@@ -5,6 +5,8 @@ module Airbased
   class Table
     attr_accessor :id, :name, :base_id, :api_key, :fields, :primary_field_id, :views, :description
 
+    TABLE_MATCHER = /^tbl[[:alnum:]]+$/
+
     # Initializes a new Table object.
     #
     # @param base_id [String] The ID of the base containing the table.
@@ -45,6 +47,27 @@ module Airbased
 
     def table_key
       @id || CGI.escape_uri_component(@name)
+    end
+
+    # Airrecord-style shorthand table definition.
+    # Creates a new Table instance with the provided API key, base ID, and table key (table id or name).
+    #
+    # @param [String] api_key The API key to access the Airtable API.
+    # @param [String] base_id The ID of the Airtable base.
+    # @param [String] table_key The name or id of the table within the base.
+    # @return [Table] A new Table instance.
+    def Airbased.table(api_key, base_id, table_key)
+      table_id = nil
+      table_name = nil
+
+      # Deducing whether the passed key is a name or id.
+      if table_key.match?(TABLE_MATCHER)
+        table_id = table_key
+      else
+        table_name = table_key
+      end
+
+      Table.new(api_key:, base_id:, id: table_id, name: table_name)
     end
 
     # Fetches a specific record from an Airtable table.
