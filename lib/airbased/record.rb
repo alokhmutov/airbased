@@ -21,9 +21,10 @@ module Airbased
 
     # Deletes a record from an Airtable table.
     #
-    # @return [String] the ID of the deleted record.
+    # @return [Record] of the deleted record, otherwise hash with error message
     def delete
-      Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")["id"]
+      response = Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
+      self if response.dig("deleted")
     end
   end
 end
