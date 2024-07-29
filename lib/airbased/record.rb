@@ -26,5 +26,20 @@ module Airbased
       response = Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
       self if response.dig("deleted")
     end
+
+    # Updates the fields of a record in an Airtable table.
+    #
+    # @param fields [Hash] The fields to update.
+    # @param overwrite [Boolean] Whether to overwrite the existing fields (default: false).
+    # @param typecast [Boolean] Whether to enable typecasting for the fields (default: false).
+    # @return [Record] The updated record.
+    def update(fields, overwrite: false, typecast: false)
+      response = if overwrite
+                   Airtable.put("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
+                 else
+                   Airtable.patch("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
+                 end
+      Record.new(id: response["id"], fields: response["fields"], created_time: response["createdTime"], table: @table)
+    end
   end
 end
