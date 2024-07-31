@@ -103,9 +103,9 @@ module Airbased
     # @param slice [Array<Hash>] The slice of records to be created. Each record is represented as a hash.
     # @return [Array<Record>] An array of Record objects created from the response of the Airtable API.
     def create_slice(slice)
-      records = Airtable.post("/#{@base_id}/#{table_key}", { records: slice })["records"]
+      records = Airtable.post("/#{@base_id}/#{table_key}", { records: slice })[:records]
       records.map do |record|
-        Record.new(id: record["id"], fields: record["fields"], created_time: record["createdTime"], table: self)
+        Record.new(id: record[:id], fields: record[:fields], created_time: record[:created_time], table: self)
       end
     end
   end

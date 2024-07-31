@@ -24,7 +24,7 @@ module Airbased
     # @return [Record] of the deleted record, otherwise hash with error message
     def delete
       response = Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
-      self if response.dig("deleted")
+      self if response.dig(:deleted)
     end
 
     # Updates the fields of a record in an Airtable table.
@@ -39,7 +39,7 @@ module Airbased
                  else
                    Airtable.patch("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
                  end
-      Record.new(id: response["id"], fields: response["fields"], created_time: response["createdTime"], table: @table)
+      Record.new(id: response[:id], fields: response[:fields], created_time: response[:created_time], table: @table)
     end
   end
 end
