@@ -12,9 +12,9 @@ module Airbased
     # @param fields [Hash] The fields of the record.
     # @param created_time [String] The creation time of the record.
     # @param table [Table] The table object to which the record belongs, expected to have `base_id` and `id` attributes.
-    def initialize(id:, fields:, created_time:, table:)
+    def initialize(fields:, table:, id: nil, created_time: nil)
       @id = id
-      @created_time = Time.parse(created_time)
+      @created_time = Time.parse(created_time) if created_time
       @fields = fields
       @table = table
     end
