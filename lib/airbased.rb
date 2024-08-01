@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+require "time"
 
 require_relative "airbased/version"
 require_relative "airbased/airtable"
 require_relative "airbased/base"
+require_relative "airbased/table/search_methods"
 require_relative "airbased/table/table"
 require_relative "airbased/record"
 
