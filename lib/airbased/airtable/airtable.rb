@@ -3,6 +3,7 @@ require "httparty"
 module Airbased
   class Airtable
     include HTTParty
+    include Errors
     base_uri 'https://api.airtable.com/v0/'
     headers 'User-Agent' => "Airbased Ruby Gem/#{Airbased::VERSION}",
             'Content-Type' => 'application/json'
@@ -88,12 +89,12 @@ module Airbased
         # would output request info if enabled
         options[:debug_output] = $stdout if Airbased.debug
 
-        # processes rate limits
-        with_rate_limit do
-          # and then delegates to the HTTParty method
-          response = super(path, options, &block)
-          process_result(response.parsed_response)
+        response = with_error_handling do
+          with_rate_limit do # processes rate limits
+            super(path, options, &block) # then delegates to the HTTParty method
+          end
         end
+        process_result(response.parsed_response)
       end
     end
   end

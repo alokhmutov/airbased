@@ -2,7 +2,8 @@
 require "time"
 
 require_relative "airbased/version"
-require_relative "airbased/airtable"
+require_relative "airbased/airtable/errors"
+require_relative "airbased/airtable/airtable"
 require_relative "airbased/base"
 require_relative "airbased/table/search_methods"
 require_relative "airbased/table/table"
