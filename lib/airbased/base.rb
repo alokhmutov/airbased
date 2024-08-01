@@ -6,7 +6,7 @@ module Airbased
   # @attr_accessor [Array<Table>] :tables the tables associated with the base
   # @attr_accessor [String] :api_key the API key used for authentication
   class Base
-    attr_accessor :base_id, :tables, :api_key
+    attr_accessor :base_id, :tables, :api_key, :tables
 
     # Initializes a new instance of the Base class.
     #
@@ -15,6 +15,14 @@ module Airbased
     def initialize(base_id, api_key: nil)
       @base_id = base_id
       @api_key = api_key || Airbased.api_key
+    end
+
+    # Fetches the schema of the Airtable base and updates the @tables variable.
+    #
+    # @return [Array<Airbased::Table>] the tables associated with the base
+    def schema
+      response = Airtable.get("/meta/bases/#{@base_id}/tables")
+      @tables = response[:tables].map { |table| Airbased::Table.new(**table, base_id: @base_id) }
     end
   end
 end
