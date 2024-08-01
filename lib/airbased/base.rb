@@ -24,5 +24,16 @@ module Airbased
       response = Airtable.get("/meta/bases/#{@base_id}/tables")
       @tables = response[:tables].map { |table| Airbased::Table.new(**table, base_id: @base_id) }
     end
+
+    # Creates a new table in the Airtable base.
+    #
+    # @param name [String] the name of the new table
+    # @param fields [Array<Hash>] the fields of the new table
+    # @param description [String, nil] an optional description for the new table
+    # @return [Airbased::Table] the newly created table
+    def create_table(name:, fields:, description: nil)
+      response = Airbased::Airtable.post("/meta/bases/#{@base_id}/tables", { name:, fields:, description: })
+      Table.new(**response, base_id: @base_id)
+    end
   end
 end
