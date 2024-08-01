@@ -13,4 +13,5 @@ group :development, :test do
   gem "minitest-reporters"
   gem "webmock"
   gem "rubocop", require: false
+  gem 'simplecov', require: false
 end
