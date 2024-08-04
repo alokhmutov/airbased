@@ -3,7 +3,7 @@
 module Airbased
   # The Record class represents an individual record within an Airtable table.
   class Record
-    attr_reader :id, :fields, :created_time, :table
+    attr_reader :id, :fields, :created_time, :table, :destroyed
 
     # Initializes a new Record instance.
     #
@@ -26,12 +26,21 @@ module Airbased
       @fields = fields.transform_keys(&:to_s)
     end
 
+    # Checks if the record has been destroyed.
+    #
+    # @return [Boolean] True if the record is destroyed, false otherwise.
+    def destroyed?
+      !!@destroyed
+    end
+
     # Deletes a record from an Airtable table.
     #
-    # @return [Record] of the deleted record, otherwise hash with error message
+    # @return a frozen [Record] of the deleted record
     def delete
-      response = Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
-      self if response.dig(:deleted)
+      Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
+      @destroyed = true
+      freeze
+      self
     end
 
     # Updates the fields of a record in an Airtable table.
