@@ -3,8 +3,7 @@
 module Airbased
   # The Record class represents an individual record within an Airtable table.
   class Record
-    attr_reader :id, :created_time, :table
-    attr_accessor :fields
+    attr_reader :id, :fields, :created_time, :table
 
     # Initializes a new Record instance.
     #
@@ -15,8 +14,16 @@ module Airbased
     def initialize(fields:, table:, id: nil, created_time: nil)
       @id = id
       @created_time = Time.parse(created_time) if created_time
-      @fields = fields
+      self.fields = fields
       @table = table
+    end
+
+    # Sets the fields of the record, transforming the keys to strings.
+    #
+    # @param fields [Hash] The fields to set, with keys that will be transformed to strings.
+    # @return [void]
+    def fields=(fields)
+      @fields = fields.transform_keys(&:to_s)
     end
 
     # Deletes a record from an Airtable table.
