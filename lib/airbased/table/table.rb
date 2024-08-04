@@ -74,10 +74,11 @@ module Airbased
     # Fetches a specific record from an Airtable table.
     #
     # @param record_id [String] The ID of the record to retrieve.
-    # @return [Hash] The response from the Airtable API containing the record data.
+    # @return [Record] A record instance with the record data.
     def find(record_id)
       # TODO: cellFormat and returnFieldsByFieldId
-      Airtable.get("/#{@base_id}/#{table_key}/#{record_id}")
+      response = Airtable.get("/#{@base_id}/#{table_key}/#{record_id}")
+      Record.new(id: response[:id], fields: response[:fields], created_time: response[:created_time], table: self)
     end
     alias :get_record :find
 
