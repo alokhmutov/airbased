@@ -55,7 +55,34 @@ module Airbased
                  else
                    Airtable.patch("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
                  end
-      Record.new(id: response[:id], fields: response[:fields], created_time: response[:created_time], table: @table)
+      assign(response[:fields])
+      self
+    end
+
+    # Assigns new values to the record's fields.
+    #
+    # @param new_fields [Hash] The new values to assign to the record's fields.
+    # @return [void] Always returns nil.
+    def assign(new_fields)
+      new_fields.each_pair { |k, v| @fields[k.to_s] = v }
+      nil
+    end
+
+    # Retrieves the value of the specified field.
+    #
+    # @param field [String, Symbol] The field name to retrieve the value for.
+    # @return [Object] The value of the specified field.
+    def [](field)
+      @fields[field.to_s]
+    end
+
+    # Sets the value of the specified field.
+    #
+    # @param key [String, Symbol] The field name to set the value for.
+    # @param value [Object] The value to set for the specified field.
+    # @return [void]
+    def []=(key, value)
+      @fields[key.to_s] = value
     end
   end
 end
