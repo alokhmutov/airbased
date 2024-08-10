@@ -37,7 +37,7 @@ module Airbased
     #
     # @return a frozen [Record] of the deleted record
     def delete
-      Airtable.delete("/#{@table.base_id}/#{@table.id}/#{@id}")
+      Airtable.delete("/#{@table.base_id}/#{@table.table_key}/#{@id}")
       @destroyed = true
       freeze
       self
@@ -51,9 +51,9 @@ module Airbased
     # @return [Record] The updated record.
     def update(fields, overwrite: false, typecast: false)
       response = if overwrite
-                   Airtable.put("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
+                   Airtable.put("/#{@table.base_id}/#{@table.table_key}/#{@id}", { fields:, typecast: })
                  else
-                   Airtable.patch("/#{@table.base_id}/#{@table.id}/#{@id}", { fields:, typecast: })
+                   Airtable.patch("/#{@table.base_id}/#{@table.table_key}/#{@id}", { fields:, typecast: })
                  end
       assign(response[:fields])
       self
