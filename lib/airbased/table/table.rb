@@ -89,6 +89,7 @@ module Airbased
     #
     # @param record_or_records [Hash, Array<Hash>] The records to be created. Must be a hash or an array of hashes.
     # @param typecast [Boolean] (false) Whether to automatically typecast values. Defaults to false.
+    # @return [Record, Array<Record>] The created record(s). Returns a single record if one record is created, otherwise returns an array of records.
     def create(record_or_records, typecast: false)
       records = record_or_records.is_a?(Hash) ? [record_or_records] : record_or_records
       records.map! { |record| { fields: record } }
