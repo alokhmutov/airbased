@@ -40,11 +40,11 @@ module Airbased
       end
 
       # formating request body to json
-      def process_query(query)
-        processed_query = query.compact
-        processed_query = deep_transform_keys(processed_query) { |key| from_snake(key) }
+      def process_data(data)
+        processed_data = data.compact
+        processed_data = deep_transform_keys(processed_data) { |key| from_snake(key) }
 
-        JSON.dump(processed_query)
+        JSON.dump(processed_data)
       end
 
       def process_result(result)
@@ -80,12 +80,12 @@ module Airbased
 
     @requests = []
 
-    # processing a custom api key and debug options, formatting query, then making request
+    # processing a custom api key and debug options, formatting data, then making request
     [:get, :post, :patch, :put, :delete].each do |method|
-      define_singleton_method(method) do |path, query = nil, options = {}, &block|
+      define_singleton_method(method) do |path, data = nil, options = {}, &block|
         # setting API key in request
         authorization(options)
-        options[:body] = process_query(query) if query
+        options[:body] = process_data(data) if data
         # would output request info if enabled
         options[:debug_output] = $stdout if Airbased.debug
 
