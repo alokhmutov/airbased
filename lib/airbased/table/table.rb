@@ -46,6 +46,14 @@ module Airbased
       @api_key = api_key if api_key
     end
 
+    # Creates a new record instance associated with the table.
+    #
+    # @param fields [Hash] The fields of the new record.
+    # @return [Record] A new Record object with the provided fields and associated with the current table.
+    def new_record(fields)
+      Record.new(fields:, table: self)
+    end
+
     def table_key
       @id || CGI.escape_uri_component(@name)
     end
