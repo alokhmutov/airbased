@@ -35,6 +35,10 @@ module Airbased
       nil
     end
 
+    def new_record?
+      !id
+    end
+
     # Checks if the record has been destroyed.
     #
     # @return [Boolean] True if the record is destroyed, false otherwise.
@@ -84,6 +88,21 @@ module Airbased
     # @return [void]
     def []=(key, value)
       @fields[key.to_s] = value
+    end
+    # Saves the record to the Airtable table.
+    #
+    # @param typecast [Boolean] Whether to enable typecasting for the fields (default: false).
+    # @return [Record] Returns the saved record.
+    def save(typecast: false)
+      if new_record?
+        record = @table.create(@fields, typecast:)
+        self.fields = record.fields
+        @created_time = record.created_time
+        @id = record.id
+        self
+      else
+        update(@fields, typecast:)
+      end
     end
   end
 end
