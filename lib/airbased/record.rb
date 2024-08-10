@@ -18,12 +18,21 @@ module Airbased
       @table = table
     end
 
-    # Sets the fields of the record, transforming the keys to strings.
+    # Overwrites the fields of the record, transforming the keys to strings.
     #
     # @param fields [Hash] The fields to set, with keys that will be transformed to strings.
     # @return [void]
     def fields=(fields)
       @fields = fields.transform_keys(&:to_s)
+    end
+
+    # Assigns new values to the record's fields.
+    #
+    # @param new_fields [Hash] The new values to assign to the record's fields.
+    # @return [void] Always returns nil.
+    def assign(new_fields)
+      @fields.update(new_fields.transform_keys(&:to_s))
+      nil
     end
 
     # Checks if the record has been destroyed.
@@ -55,18 +64,10 @@ module Airbased
                  else
                    Airtable.patch("/#{@table.base_id}/#{@table.table_key}/#{@id}", { fields:, typecast: })
                  end
-      assign(response[:fields])
+      self.fields = response[:fields]
       self
     end
 
-    # Assigns new values to the record's fields.
-    #
-    # @param new_fields [Hash] The new values to assign to the record's fields.
-    # @return [void] Always returns nil.
-    def assign(new_fields)
-      new_fields.each_pair { |k, v| @fields[k.to_s] = v }
-      nil
-    end
 
     # Retrieves the value of the specified field.
     #
