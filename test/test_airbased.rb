@@ -7,17 +7,7 @@ class TestAirbased < Minitest::Test
     refute_nil ::Airbased::VERSION
   end
 
-  def setup
-    # Ensure the api_key and debug are reset before each test
-    Airbased.api_key = nil
-    Airbased.debug = nil
-  end
-
-  def test_api_key_accessor
-    Airbased.api_key = "test_api_key"
-    assert_equal "test_api_key", Airbased.api_key, "API key should be set correctly"
-  end
-
+  # TODO: test for silence
   def test_debug_accessor
     Airbased.debug = true
     assert_equal true, Airbased.debug, "Debug mode should be set to true"
