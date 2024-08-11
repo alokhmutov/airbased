@@ -92,6 +92,15 @@ module Airbased
     def []=(key, value)
       @fields[key.to_s] = value
     end
+
+    # Compares the current record with another object for equality.
+    #
+    # @param other [Object] The object to compare with.
+    # @return [Boolean] True if the other object is a Record and has the same id and fields, false otherwise.
+    def ==(other)
+      other.is_a?(Record) && id == other.id && fields == other.fields
+    end
+
     # Saves the record to the Airtable table.
     #
     # @param typecast [Boolean] Whether to enable typecasting for the fields (default: false).
