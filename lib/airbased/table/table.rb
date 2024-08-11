@@ -58,6 +58,9 @@ module Airbased
       @id || CGI.escape_uri_component(@name)
     end
 
+    # A shortcut for a hash with a table's api key in requests.
+    #
+    # @return [Hash] Hash with API key, or with nil value if no special api key set for table.
     def options
       { api_key: }
     end

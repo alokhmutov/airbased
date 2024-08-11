@@ -35,6 +35,9 @@ module Airbased
       nil
     end
 
+    # Checks if the record is new (i.e., does not have an id).
+    #
+    # @return [Boolean] True if the record is new, false otherwise.
     def new_record?
       !id
     end

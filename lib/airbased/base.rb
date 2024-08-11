@@ -6,7 +6,7 @@ module Airbased
   # @attr_accessor [Array<Table>] :tables the tables associated with the base
   # @attr_accessor [String] :api_key the API key used for authentication
   class Base
-    attr_accessor :base_id, :tables, :api_key, :tables
+    attr_accessor :base_id, :tables, :api_key
 
     # Initializes a new instance of the Base class.
     #

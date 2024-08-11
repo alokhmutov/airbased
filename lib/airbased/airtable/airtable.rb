@@ -1,6 +1,11 @@
+# frozen_string_literal: true
+
 require "httparty"
 
 module Airbased
+  # The Airtable class is an HTTParty client for Airtable API.
+  # It handles headers (incl. authorization), rate limits, error handling,
+  # and basic request/response parsing.
   class Airtable
     include HTTParty
     include Errors
@@ -34,9 +39,10 @@ module Airbased
         response
       end
 
+      # sets an authorization header with a custom, if passed, or general api key
       def authorization(options)
         api_key = (options.dig(:api_key) && options.delete(:api_key)) || Airbased.api_key
-        options[:headers] ||= {Authorization: "Bearer #{api_key}"}
+        options[:headers] ||= { Authorization: "Bearer #{api_key}" }
       end
 
       # formating request body to json
@@ -47,10 +53,12 @@ module Airbased
         JSON.dump(processed_data)
       end
 
+      # formating response body to be accessible with conventional snake-case symbols
       def process_result(result)
         deep_transform_keys(result) { |key| to_snake(key) }
       end
 
+      # recursively transforms keys of a payload, except for field names
       def deep_transform_keys(obj, &block)
         case obj
         when Hash
@@ -85,7 +93,10 @@ module Airbased
       define_singleton_method(method) do |path, data = nil, options = {}, &block|
         # setting API key in request
         authorization(options)
+
+        # formatting data to json
         options[:body] = process_data(data) if data
+
         # would output request info if enabled
         options[:debug_output] = $stdout if Airbased.debug
 
