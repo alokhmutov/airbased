@@ -35,7 +35,7 @@ module Airbased
       end
 
       def authorization(options)
-        api_key = options.delete(:api_key) || Airbased.api_key
+        api_key = (options.dig(:api_key) && options.delete(:api_key)) || Airbased.api_key
         options[:headers] ||= {Authorization: "Bearer #{api_key}"}
       end
 

@@ -58,6 +58,10 @@ module Airbased
       @id || CGI.escape_uri_component(@name)
     end
 
+    def options
+      { api_key: }
+    end
+
     # Airrecord-style shorthand table definition.
     # Creates a new Table instance with the provided API key, base ID, and table key (table id or name).
     #
@@ -85,7 +89,7 @@ module Airbased
     # @return [Record] A record instance with the record data.
     def find(record_id)
       # TODO: cellFormat and returnFieldsByFieldId
-      response = Airtable.get("/#{@base_id}/#{table_key}/#{record_id}")
+      response = Airtable.get("/#{@base_id}/#{table_key}/#{record_id}", nil, options)
       Record.new(id: response[:id], fields: response[:fields], created_time: response[:created_time], table: self)
     end
     alias :get_record :find
@@ -114,7 +118,7 @@ module Airbased
     # @param slice [Array<Hash>] The slice of records to be created. Each record is represented as a hash.
     # @return [Array<Record>] An array of Record objects created from the response of the Airtable API.
     def create_slice(slice, typecast:)
-      records = Airtable.post("/#{@base_id}/#{table_key}", { records: slice, typecast: })[:records]
+      records = Airtable.post("/#{@base_id}/#{table_key}", { records: slice, typecast: }, options)[:records]
       records.map do |record|
         Record.new(id: record[:id], fields: record[:fields], created_time: record[:created_time], table: self)
       end
@@ -138,7 +142,7 @@ module Airbased
             raise Airbased::Error.new("You need to pass an array of records or a record ids but #{record} is a #{record.class}.")
           end
         end
-        response = Airtable.delete("/#{@base_id}/#{table_key}?" + URI.encode_www_form("records[]": ids))[:records]
+        response = Airtable.delete("/#{@base_id}/#{table_key}?" + URI.encode_www_form("records[]": ids), options)[:records]
         records_or_record_ids
       end
     end

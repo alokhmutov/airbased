@@ -17,10 +17,10 @@ module Airbased
       )
         # TODO: required params
 
-        response = Airtable.post("/#{@base_id}/#{table_key}/listRecords", {
-          offset:, page_size:, max_records:, fields:, view:, sort:, filter_by_formula:,
-          time_zone:, user_locale:, cell_format:, return_fields_by_field_id:, record_metadata:
-        })
+        response = Airtable.post("/#{@base_id}/#{table_key}/listRecords",
+                                 { offset:, page_size:, max_records:, fields:, view:, sort:, filter_by_formula:,
+                                   time_zone:, user_locale:, cell_format:, return_fields_by_field_id:, record_metadata: },
+                                 options)
         records = response[:records].map do |record|
           Record.new(id: record[:id], fields: record[:fields], created_time: record[:created_time], table: self)
         end
