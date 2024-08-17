@@ -119,5 +119,18 @@ module Airbased
         update(@fields, typecast:)
       end
     end
+
+    # Converts the record to a hash representation.
+    #
+    # @return [Hash] A hash containing the record's id, fields, created_time, table key, and base id.
+    def to_h
+      {
+        id: @id,
+        fields: @fields,
+        created_time: @created_time,
+        table: @table.table_key,
+        base: @table.base_id
+      }
+    end
   end
 end

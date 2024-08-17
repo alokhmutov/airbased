@@ -102,4 +102,9 @@ class RecordTest < Minitest::Test
     refute_equal @record, new_fields
     refute_equal @record, [@record]
   end
+
+  def test_hashification
+    assert_equal @record.to_h, { id: @id, fields: @fields, created_time: Time.parse(@created_time), table: @table.table_key, base: @table.base_id }
+    assert_equal @record.to_h[:fields]["Name"], @record["Name"]
+  end
 end
