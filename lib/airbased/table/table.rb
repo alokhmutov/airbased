@@ -3,7 +3,7 @@
 module Airbased
   # Represents a table in the Airtable base, and provides a way to interact with it.
   class Table
-    include SearchMethods
+    include Query
     attr_accessor :id, :name, :base_id, :api_key, :fields, :primary_field_id, :views, :description
 
     TABLE_MATCHER = /^tbl[[:alnum:]]+$/
@@ -86,16 +86,6 @@ module Airbased
       Table.new(api_key:, base_id:, id: table_id, name: table_name)
     end
 
-    # Fetches a specific record from an Airtable table.
-    #
-    # @param record_id [String] The ID of the record to retrieve.
-    # @return [Record] A record instance with the record data.
-    def find(record_id)
-      # TODO: cellFormat and returnFieldsByFieldId
-      response = Airtable.get("/#{@base_id}/#{table_key}/#{record_id}", nil, options)
-      Record.new(id: response[:id], fields: response[:fields], created_time: response[:created_time], table: self)
-    end
-    alias :get_record :find
 
     # Creates new records in the Airtable base.
     #
