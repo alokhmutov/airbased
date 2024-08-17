@@ -132,5 +132,16 @@ module Airbased
         base: @table.base_id
       }
     end
+
+    # Generates a link to the record in the Airtable table.
+    #
+    # @raise [Airbased::Error] If the table does not have an id (name only won't work in this case), or if a record does not have an id.
+    # @return [String] The URL link to the record.
+    def link
+      raise Airbased::Error.new("Record's table needs a table id to generate a link") unless @table.id
+      raise Airbased::Error.new("Record does not have an id to generate a link, it must be saved first") unless @id
+
+      "https://airtable.com/#{@table.base_id}/#{@table.id}/#{@id}"
+    end
   end
 end

@@ -107,4 +107,21 @@ class RecordTest < Minitest::Test
     assert_equal @record.to_h, { id: @id, fields: @fields, created_time: Time.parse(@created_time), table: @table.table_key, base: @table.base_id }
     assert_equal @record.to_h[:fields]["Name"], @record["Name"]
   end
+
+  def test_link
+    assert_equal @record.link, "https://airtable.com/#{@base_id}/#{@table_id}/#{@id}"
+
+    @record.instance_variable_set(:@id, nil)
+
+    assert_raises(Airbased::Error) { @record.link }
+
+    @table = Airbased::Table.new(base_id: @base_id, name: "Table 1")
+    @record = Airbased::Record.new(id: @id, fields: @fields, created_time: @created_time, table: @table)
+
+    assert_raises(Airbased::Error) { @record.link }
+
+    @table.instance_variable_set(:@id, "tbl111")
+
+    assert_equal @record.link, "https://airtable.com/#{@table.base_id}/#{@table.id}/#{@record.id}"
+  end
 end
