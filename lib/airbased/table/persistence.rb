@@ -27,10 +27,10 @@ module Airbased
       # The records_or_record_ids parameter can either be an array of Record objects or an array of record IDs.
       #
       # @param records_or_record_ids [Array<Record, String>] The records or record IDs to be deleted.
-      # @return [Array<Record, String>] The records or record IDs that were passed in.
+      # @return [Array<Record>] The IDs of the deleted records.
       # @raise [Airbased::Error] if an element in the array is neither a Record object nor a String.
       def delete(records_or_record_ids)
-        records_or_record_ids.each_slice(10).flat_map do |slice|
+        responses = records_or_record_ids.each_slice(10).flat_map do |slice|
           ids = slice.map do |record|
             if record.is_a?(Record)
               record.id
@@ -40,9 +40,9 @@ module Airbased
               raise Airbased::Error.new("You need to pass an array of records or a record ids but #{record} is a #{record.class}.")
             end
           end
-          response = Airtable.delete("/#{@base_id}/#{table_key}?" + URI.encode_www_form("records[]": ids), options)[:records]
-          records_or_record_ids
+          Airtable.delete("/#{@base_id}/#{table_key}?" + URI.encode_www_form("records[]": ids), options)[:records]
         end
+        responses.map { |r| r[:id] }
       end
 
       private
