@@ -23,7 +23,10 @@ module Airbased
     # @param fields [Hash] The fields to set, with keys that will be transformed to strings.
     # @return [void]
     def fields=(fields)
-      @fields = fields.transform_keys(&:to_s)
+      @fields = Hash.new { |hash, key| hash[key.to_s] if key.is_a?(Symbol) }
+      fields.each do |key, value|
+        @fields[key.to_s] = value
+      end
     end
 
     # Assigns new values to the record's fields.
