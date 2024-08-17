@@ -49,7 +49,7 @@ module Airbased
     #
     # @return [Boolean] True if the record is destroyed, false otherwise.
     def destroyed?
-      !!@destroyed
+      !!destroyed
     end
 
     # Deletes a record from an Airtable table.
@@ -84,7 +84,7 @@ module Airbased
     # @param field [String, Symbol] The field name to retrieve the value for.
     # @return [Object] The value of the specified field.
     def [](field)
-      @fields[field.to_s]
+      @fields[field]
     end
 
     # Sets the value of the specified field.
