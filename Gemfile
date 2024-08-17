@@ -11,7 +11,10 @@ group :development, :test do
   gem "minitest"
   gem "minitest-hooks"
   gem "minitest-reporters"
+  gem "minitest-around"
   gem "webmock"
+  gem "dotenv"
   gem "rubocop", require: false
-  gem 'simplecov', require: false
+  gem "simplecov", require: false
+  gem "vcr"
 end

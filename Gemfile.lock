@@ -18,6 +18,7 @@ GEM
       rexml
     csv (3.3.0)
     docile (1.4.1)
+    dotenv (3.1.2)
     hashdiff (1.1.0)
     httparty (0.22.0)
       csv
@@ -27,6 +28,8 @@ GEM
     language_server-protocol (3.17.0.3)
     mini_mime (1.1.5)
     minitest (5.24.1)
+    minitest-around (0.5.0)
+      minitest (~> 5.0)
     minitest-hooks (1.5.1)
       minitest (> 5.3)
     minitest-reporters (1.7.1)
@@ -69,6 +72,7 @@ GEM
     simplecov_json_formatter (0.1.4)
     strscan (3.1.0)
     unicode-display_width (2.5.0)
+    vcr (6.2.0)
     webmock (3.23.1)
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
@@ -80,12 +84,15 @@ PLATFORMS
 
 DEPENDENCIES
   airbased!
+  dotenv
   minitest
+  minitest-around
   minitest-hooks
   minitest-reporters
   rake (~> 13.0)
   rubocop
   simplecov
+  vcr
   webmock
 
 BUNDLED WITH
