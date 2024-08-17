@@ -8,6 +8,7 @@ require_relative "airbased/airtable/airtable"
 require_relative "airbased/base"
 
 require_relative "airbased/table/query"
+require_relative "airbased/table/persistence"
 require_relative "airbased/table/table"
 
 require_relative "airbased/record/persistence"
