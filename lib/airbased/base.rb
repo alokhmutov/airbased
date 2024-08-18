@@ -25,6 +25,18 @@ module Airbased
       @tables = response[:tables].map { |table| Airbased::Table.new(**table, base_id: @base_id) }
     end
 
+    # Retrieves a table from the base by its id or name. Makes an API request to fetch the schema if tables have not been loaded yet.
+    #
+    # @param table_key [String] the key of the table to retrieve. This can be either the table's ID or name.
+    # @return [Airbased::Table, nil] the table with the specified key, or nil if no such table exists.
+    def [](table_key)
+      schema if @tables.nil?
+      table = @tables.find { |table| table.id == table_key || table.name == table_key }
+      raise Airbased::Error.new("Table with '#{table_key}' not found in schema") if table.nil?
+
+      table
+    end
+
     # Creates a new table in the Airtable base.
     #
     # @param name [String] the name of the new table
