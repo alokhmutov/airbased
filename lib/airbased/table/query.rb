@@ -15,6 +15,13 @@ module Airbased
       end
       alias :get_record :find
 
+      # Fetches the first record from an Airtable table.
+      #
+      # @return [Record, nil] The first record if available, otherwise nil.
+      def first
+        all(page_size: 1, max_records: 1).first
+      end
+
       def all(
         offset: nil,
         page_size: nil,
