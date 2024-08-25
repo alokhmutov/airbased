@@ -13,8 +13,8 @@ module Airbased
       # @param typecast [Boolean] (false) Whether to automatically typecast values. Defaults to false.
       # @return [Record, Array<Record>] The created record(s). Returns a single record if one record is created, otherwise returns an array of records.
       def create(record_or_records, typecast: false)
-        records = record_or_records.is_a?(Hash) ? [record_or_records] : record_or_records
-        records.map! { |record| { fields: record } }
+        records = record_or_records.is_a?(Hash) ? [record_or_records.dup] : record_or_records.dup
+        records = hash_or_record_to_hash(records, id_required: false)
 
         returned_records = records.each_slice(10).map do |slice|
           create_slice(slice, typecast:)

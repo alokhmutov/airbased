@@ -13,8 +13,10 @@ module Airbased
           raise Airbased::Error.new("id in records are mandatory for update. Use upsert with merge_on: for records not yet persisted")
         end
 
-        if record_object.is_a?(Hash)
+        if record_object.is_a?(Hash) && (record_object.dig(:fields) || record_object.dig("fields"))
           new_record(**record_object)
+        elsif record_object.is_a?(Hash)
+          new_record(fields: record_object)
         elsif record_object.is_a?(Airbased::Record)
           record_object
         else
