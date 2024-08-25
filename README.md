@@ -11,7 +11,15 @@ Feedback and contributions are most welcome!
 
 ## Start using Airbased
 
-Define an API key, then define a base.
+# Install the gem.
+
+`gem install airbased --pre`
+
+Or in a Gemfile:
+
+`gem 'airbased', '0.0.1-alpha'`
+
+# Define an API key, then define a base.
 
 ```ruby
 Airbased.api_key = "patxxx"

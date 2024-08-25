@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    airbased (0.0.0)
+    airbased (0.0.1.pre.alpha)
       httparty
 
 GEM
