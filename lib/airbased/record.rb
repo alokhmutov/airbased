@@ -30,7 +30,7 @@ module Airbased
       end
     end
 
-    # Assigns new values to the record's fields.
+    # Assigns new values to the record's fields, transforming the keys to strings.
     #
     # @param new_fields [Hash] The new values to assign to the record's fields.
     # @return [void] Always returns nil.

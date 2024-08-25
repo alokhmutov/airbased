@@ -5,6 +5,7 @@ module Airbased
   class Table
     include Query
     include Persistence
+
     attr_accessor :id, :name, :base_id, :api_key, :fields, :primary_field_id, :views, :description
 
     TABLE_MATCHER = /^tbl[[:alnum:]]+$/

@@ -3,6 +3,7 @@
 require "time"
 
 require_relative "airbased/version"
+
 require_relative "airbased/airtable/errors"
 require_relative "airbased/airtable/airtable"
 

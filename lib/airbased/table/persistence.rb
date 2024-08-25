@@ -7,7 +7,6 @@ module Airbased
       include Airbased::Validation
       # Creates new records in the Airtable base.
       #
-      # This method sends a POST request to the Airtable API to create new records.
       # The records parameter can either be a single hash or an array of hashes, where each hash represents a record.
       #
       # @param record_or_records [Hash, Array<Hash>] The records to be created. Must be a hash or an array of hashes.
