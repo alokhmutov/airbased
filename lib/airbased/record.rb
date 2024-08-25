@@ -91,6 +91,13 @@ module Airbased
       }
     end
 
+    def to_api_hash
+      {
+        "id" => @id,
+        "fields" => @fields
+      }.compact
+    end
+
     # Generates a link to the record in the Airtable table.
     #
     # @raise [Airbased::Error] If the table does not have an id (name only won't work in this case), or if a record does not have an id.

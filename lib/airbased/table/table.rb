@@ -51,8 +51,8 @@ module Airbased
     #
     # @param fields [Hash] The fields of the new record.
     # @return [Record] A new Record object with the provided fields and associated with the current table.
-    def new_record(fields)
-      Record.new(fields:, table: self)
+    def new_record(fields:, id: nil, created_time: nil)
+      Record.new(fields:, id:, created_time:, table: self)
     end
 
     def table_key

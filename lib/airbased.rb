@@ -5,6 +5,9 @@ require "time"
 require_relative "airbased/version"
 require_relative "airbased/airtable/errors"
 require_relative "airbased/airtable/airtable"
+
+require_relative "airbased/validation"
+
 require_relative "airbased/base"
 
 require_relative "airbased/table/query"
