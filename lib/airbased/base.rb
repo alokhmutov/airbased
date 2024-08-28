@@ -15,6 +15,7 @@ module Airbased
     def initialize(base_id, api_key: nil)
       @base_id = base_id
       @api_key = api_key || Airbased.api_key
+      @tables = []
     end
 
     # Fetches the schema of the Airtable base and updates the @tables variable.
@@ -30,7 +31,7 @@ module Airbased
     # @param table_key [String] the key of the table to retrieve. This can be either the table's ID or name.
     # @return [Airbased::Table, nil] the table with the specified key, or nil if no such table exists.
     def [](table_key)
-      schema if @tables.nil?
+      schema if @tables.empty?
       table = @tables.find { |table| table.id == table_key || table.name == table_key }
       raise Airbased::Error.new("Table with '#{table_key}' not found in schema") if table.nil?
 
@@ -45,7 +46,9 @@ module Airbased
     # @return [Airbased::Table] the newly created table
     def create_table(name:, fields:, description: nil)
       response = Airbased::Airtable.post("/meta/bases/#{@base_id}/tables", { name:, fields:, description: })
-      Table.new(**response, base_id: @base_id)
+      table = Table.new(**response, base_id: @base_id)
+      @tables << table
+      table
     end
   end
 end
