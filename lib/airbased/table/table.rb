@@ -4,7 +4,7 @@ module Airbased
   # Represents a table in the Airtable base, and provides a way to interact with it.
   class Table
     include Query
-    include Persistence
+    include Table::Persistence
 
     attr_accessor :id, :name, :base_id, :api_key, :fields, :primary_field_id, :views, :description
 
